@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey Form</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+       
+        .form-container {
+            width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        
+        h1 {
+            font-size: 24px;
+            margin: 0 0 20px;
+        }
+
+        /* Form group styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        
+        label {
+            font-weight: bold;
+        }
+
+       
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+       
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .popup p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Survey Form</h1>
+        <form id="surveyForm">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select a country</option>
+                    <option value="usa">USA</option>
+                    <option value="canada">Canada</option>
+                    <option value="uk">UK</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label><br>
+                <input type="checkbox" id="male" name="gender" value="male"> Male
+                <input type="checkbox" id="female" name="gender" value="female"> Female
+            </div>
+            <div class="form-group">
+                <label for="profession">Profession:</label>
+                <input type="text" id="profession" name="profession" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="submitForm()">Submit</button>
+                <button type="button" onclick="resetForm()">Reset</button> <!-- Added "Reset" button -->
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById('surveyForm');
+            if (form.checkValidity()) {
+                const formData = new FormData(form);
+                const values = {};
+                formData.forEach((value, key) => {
+                    values[key] = value;
+                });
+
+                // Create a popup to display the selected values
+                const popup = document.createElement('div');
+                popup.classList.add('popup');
+                popup.innerHTML = '<div class="popup-content"><h2>Survey Form Data</h2>';
+                for (const key in values) {
+                    popup.innerHTML += `<p><strong>${key}:</strong> ${values[key]}</p><br>`;
+                }
+                popup.innerHTML += '</div>';
+                document.body.appendChild(popup);
+
+                // Close the popup, reset the form, and clear form values
+                popup.addEventListener('click', () => {
+                    document.body.removeChild(popup);
+                    form.reset();
+                });
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        }
+
+        function resetForm() {
+            const form = document.getElementById('surveyForm');
+            form.reset();
+        }
+    </script>
+</body>
+</html>
